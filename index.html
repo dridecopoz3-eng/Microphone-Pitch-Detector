@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch Accuracy Test – Improve Singing Precision with Professional Voice Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #02070f;
+    --surface: #060d1a;
+    --card: #091122;
+    --border: #112240;
+    --cyan: #00e5ff;
+    --cyan2: #00b4d8;
+    --lime: #a3e635;
+    --violet: #8b5cf6;
+    --gold: #fbbf24;
+    --text: #e0f2fe;
+    --muted: #4a6580;
+    --light: #93b4cb;
+    --dark: #02070f;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 17px;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  /* scanline overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,229,255,0.013) 2px,
+      rgba(0,229,255,0.013) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(2,7,15,0.88);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-box {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--cyan);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    position: relative;
+  }
+
+  .logo-box::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px;
+    width: 8px; height: 8px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+  }
+
+  .logo-box::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; right: -4px;
+    width: 8px; height: 8px;
+    border-bottom: 2px solid var(--cyan);
+    border-right: 2px solid var(--cyan);
+  }
+
+  .logo-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.35rem;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  .logo-name span { color: var(--cyan); }
+
+  nav { display: flex; align-items: center; gap: 32px; }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--cyan); }
+
+  .nav-cta {
+    border: 1.5px solid var(--cyan);
+    color: var(--cyan) !important;
+    padding: 7px 20px;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.78rem !important;
+    transition: background 0.2s, color 0.2s !important;
+    position: relative;
+  }
+
+  .nav-cta:hover { background: var(--cyan); color: var(--bg) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 96px 5% 80px;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -160px; right: -120px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 60%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 60%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 72px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 24px;
+  }
+
+  .hero-label::before {
+    content: '';
+    width: 24px; height: 1.5px;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.2rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: 1px;
+    margin-bottom: 32px;
+    color: var(--text);
+  }
+
+  h1 span {
+    color: var(--cyan);
+    text-shadow: 0 0 30px rgba(0,229,255,0.4);
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+    color: var(--light);
+    line-height: 1.9;
+    margin-bottom: 18px;
+  }
+
+  .txt-link {
+    color: var(--cyan);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0,229,255,0.4);
+    transition: color 0.2s, border-color 0.2s, text-shadow 0.2s;
+  }
+  .txt-link:hover { color: #fff; border-color: var(--cyan); text-shadow: 0 0 12px rgba(0,229,255,0.5); }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+
+  .hs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hs-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    color: var(--cyan);
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0,229,255,0.3);
+  }
+
+  .hs-lbl { font-size: 0.75rem; color: var(--muted); font-weight: 600; letter-spacing: 0.5px; }
+
+  /* ── TEST DISPLAY CARD ── */
+  .test-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 36px;
+    box-shadow:
+      0 0 0 1px rgba(0,229,255,0.05),
+      0 0 60px rgba(0,229,255,0.06),
+      0 32px 80px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .test-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--cyan2), transparent);
+    box-shadow: 0 0 16px var(--cyan);
+  }
+
+  .tc-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  .tc-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .rec-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+
+  .rec-pill::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--lime);
+    animation: recBlink 1s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--lime);
+  }
+
+  @keyframes recBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* big score circle */
+  .score-circle {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    background: conic-gradient(var(--cyan) 0deg, var(--cyan2) 252deg, rgba(255,255,255,0.05) 252deg);
+    animation: scoreLoad 2s ease-out forwards;
+  }
+
+  @keyframes scoreLoad {
+    from { background: conic-gradient(var(--cyan) 0deg, var(--cyan2) 0deg, rgba(255,255,255,0.05) 0deg); }
+    to { background: conic-gradient(var(--cyan) 0deg, var(--cyan2) 252deg, rgba(255,255,255,0.05) 252deg); }
+  }
+
+  .score-inner {
+    width: 104px; height: 104px;
+    border-radius: 50%;
+    background: var(--surface);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .score-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--cyan);
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0,229,255,0.5);
+    letter-spacing: 1px;
+  }
+
+  .score-pct { font-size: 0.7rem; color: var(--muted); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* hz bars */
+  .hz-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .hz-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hz-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+    width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .hz-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hz-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--cyan2));
+    box-shadow: 0 0 8px rgba(0,229,255,0.5);
+    animation: hzLoad 1.5s ease-out forwards;
+    width: 0%;
+  }
+
+  @keyframes hzLoad { to { width: var(--w); } }
+
+  .hz-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 600;
+    width: 52px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* status chips */
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .s-chip {
+    background: rgba(0,229,255,0.05);
+    border: 1px solid rgba(0,229,255,0.12);
+    padding: 12px 8px;
+    text-align: center;
+  }
+
+  .s-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--cyan);
+    display: block;
+    letter-spacing: 1px;
+    text-shadow: 0 0 12px rgba(0,229,255,0.4);
+  }
+
+  .s-lbl { font-size: 0.65rem; color: var(--muted); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ── SECTIONS ── */
+  section { padding: 88px 5%; position: relative; z-index: 1; }
+  .section-inner { max-width: 1240px; margin: 0 auto; }
+
+  .sec-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 16px;
+  }
+
+  .sec-tag::before {
+    content: '';
+    width: 20px; height: 1.5px;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  h2 span {
+    color: var(--cyan);
+    text-shadow: 0 0 20px rgba(0,229,255,0.3);
+  }
+
+  p { color: var(--light); margin-bottom: 18px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── ALT BG ── */
+  .alt { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  /* ── TWO COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  /* info box */
+  .info-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 36px;
+    position: relative;
+  }
+
+  .info-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+  }
+
+  .ib-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ib-row:first-child { padding-top: 0; }
+  .ib-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .ib-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: rgba(0,229,255,0.2);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 40px;
+  }
+
+  .ib-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .ib-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.65; margin-bottom: 0; }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .hw-cell {
+    background: var(--card);
+    padding: 36px 28px;
+    position: relative;
+    transition: background 0.25s;
+  }
+
+  .hw-cell:hover { background: rgba(0,229,255,0.04); }
+
+  .hw-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: rgba(0,229,255,0.1);
+    line-height: 1;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  .hw-cell h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+  }
+
+  .hw-cell p { font-size: 0.87rem; color: var(--muted); margin-bottom: 0; line-height: 1.7; }
+
+  .hw-accent {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0%; height: 2px;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    transition: width 0.4s;
+  }
+
+  .hw-cell:hover .hw-accent { width: 100%; }
+
+  /* ── WHY IMPORTANT ── */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .why-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .wl-item {
+    display: flex;
+    gap: 20px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .wl-item:last-child { border-bottom: none; }
+  .wl-item:hover { background: rgba(0,229,255,0.04); }
+
+  .wl-arrow {
+    color: var(--cyan);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+    text-shadow: 0 0 8px rgba(0,229,255,0.5);
+  }
+
+  .wl-item p { font-size: 0.92rem; color: var(--light); margin-bottom: 0; line-height: 1.7; }
+  .wl-item strong { color: var(--text); }
+
+  /* terminal block */
+  .terminal {
+    background: #000;
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .term-bar {
+    background: rgba(0,229,255,0.08);
+    border-bottom: 1px solid rgba(0,229,255,0.15);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .t-dot.r { background: #ff5f57; }
+  .t-dot.y { background: #febc2e; }
+  .t-dot.g { background: #28c840; }
+
+  .term-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    color: rgba(0,229,255,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-left: 8px;
+  }
+
+  .term-body { padding: 24px; font-family: 'Space Grotesk', monospace; font-size: 0.82rem; }
+
+  .tl { margin-bottom: 10px; display: flex; gap: 10px; }
+  .tl:last-child { margin-bottom: 0; }
+  .tl-prompt { color: var(--cyan); opacity: 0.7; flex-shrink: 0; }
+  .tl-key { color: rgba(0,229,255,0.6); flex-shrink: 0; min-width: 120px; }
+  .tl-val { color: #a3e635; }
+  .tl-val.warn { color: #fbbf24; }
+  .tl-val.ok { color: #4ade80; }
+  .tl-val.err { color: #f87171; }
+
+  /* ── BENEFITS ── */
+  .ben-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .ben-cell {
+    background: var(--card);
+    padding: 32px 28px;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ben-cell:hover { background: rgba(0,229,255,0.04); }
+
+  .ben-cell::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0%;
+    background: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan);
+    transition: height 0.35s;
+  }
+
+  .ben-cell:hover::after { height: 100%; }
+
+  .bc-icon {
+    font-size: 1.8rem;
+    display: block;
+    margin-bottom: 16px;
+    filter: grayscale(0.2);
+  }
+
+  .ben-cell h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    letter-spacing: 0.2px;
+  }
+
+  .ben-cell p { font-size: 0.88rem; color: var(--muted); margin-bottom: 0; line-height: 1.7; }
+
+  /* ── STEP BY STEP ── */
+  .guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step-row {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step-row:last-child { border-bottom: none; }
+
+  .sr-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.95rem;
+    color: var(--cyan);
+    width: 44px;
+    padding: 18px 0;
+    flex-shrink: 0;
+    letter-spacing: 1px;
+    opacity: 0.6;
+  }
+
+  .sr-content {
+    padding: 18px 0 18px 16px;
+    border-left: 1px solid var(--border);
+    flex: 1;
+    transition: background 0.2s, padding-left 0.2s;
+  }
+
+  .step-row:hover .sr-content { background: rgba(0,229,255,0.03); padding-left: 22px; }
+
+  .sr-content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .sr-content p { font-size: 0.86rem; color: var(--muted); margin-bottom: 0; line-height: 1.65; }
+
+  /* ── FEATURES TABLE ── */
+  .feat-table {
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .ft-head {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    background: rgba(0,229,255,0.08);
+    border-bottom: 1px solid rgba(0,229,255,0.2);
+    padding: 16px 24px;
+    gap: 20px;
+  }
+
+  .ft-head-col {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+
+  .ft-row {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    gap: 20px;
+    transition: background 0.2s;
+  }
+
+  .ft-row:last-child { border-bottom: none; }
+  .ft-row:hover { background: rgba(0,229,255,0.03); }
+
+  .ft-feature {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ft-feature::before {
+    content: '>';
+    color: var(--cyan);
+    opacity: 0.7;
+    font-size: 0.8rem;
+  }
+
+  .ft-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── MISTAKES ── */
+  .mistakes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .mk-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+
+  .mk-item:hover { border-color: rgba(248,113,113,0.35); }
+
+  .mk-x {
+    width: 28px; height: 28px;
+    background: rgba(248,113,113,0.1);
+    border: 1px solid rgba(248,113,113,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #f87171;
+    flex-shrink: 0;
+  }
+
+  .mk-item p { font-size: 0.9rem; color: var(--muted); margin-bottom: 0; line-height: 1.7; }
+  .mk-item strong { color: var(--text); }
+
+  /* ── HOW TO IMPROVE ── */
+  .improve-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .imp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .imp-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .imp-bullet {
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    flex-shrink: 0;
+    margin-top: 9px;
+    box-shadow: 0 0 8px var(--cyan);
+  }
+
+  .imp-item p { font-size: 0.95rem; color: var(--light); margin-bottom: 0; line-height: 1.75; }
+  .imp-item strong { color: var(--text); }
+
+  .callout-box {
+    background: linear-gradient(160deg, rgba(0,229,255,0.06), rgba(139,92,246,0.06));
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 4px;
+    padding: 36px;
+    position: relative;
+  }
+
+  .callout-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--cyan), var(--violet));
+    box-shadow: 0 0 10px var(--cyan);
+  }
+
+  .callout-box h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    color: var(--cyan);
+    margin-bottom: 16px;
+    text-shadow: 0 0 20px rgba(0,229,255,0.3);
+  }
+
+  .callout-box p { font-size: 0.95rem; color: var(--light); margin-bottom: 14px; line-height: 1.8; }
+
+  .cbox-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .cbox-m {
+    background: rgba(0,229,255,0.06);
+    border: 1px solid rgba(0,229,255,0.12);
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  .cbox-m-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--cyan);
+    display: block;
+    letter-spacing: 1px;
+    text-shadow: 0 0 12px rgba(0,229,255,0.4);
+  }
+
+  .cbox-m-lbl { font-size: 0.68rem; color: var(--muted); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ── CONCLUSION ── */
+  .conclusion-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 72px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .conclusion-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), transparent);
+    box-shadow: 0 0 20px var(--cyan);
+  }
+
+  .conclusion-wrap::after {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,229,255,0.06), transparent 65%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .conclusion-wrap h2 { margin-bottom: 24px; }
+  .conclusion-wrap p { max-width: 640px; margin: 0 auto 18px; font-size: 1.02rem; line-height: 1.9; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 64px 5% 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-inner { max-width: 1240px; margin: 0 auto; }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 64px;
+    margin-bottom: 48px;
+  }
+
+  .f-logo { display: inline-flex; margin-bottom: 18px; }
+
+  .footer-brand p { font-size: 0.87rem; color: var(--muted); line-height: 1.8; margin-bottom: 0; max-width: 300px; }
+
+  .footer-col h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 20px;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .footer-col ul li a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: var(--cyan); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-bottom p { font-size: 0.78rem; color: var(--muted); margin-bottom: 0; }
+
+  .f-badge {
+    border: 1px solid rgba(0,229,255,0.2);
+    padding: 6px 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem;
+    color: var(--cyan);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .hero-inner, .two-col, .why-grid, .guide-grid, .improve-grid, .footer-top { grid-template-columns: 1fr; gap: 40px; }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .ben-grid { grid-template-columns: 1fr 1fr 1fr; }
+    nav { display: none; }
+    .conclusion-wrap { padding: 48px 28px; }
+  }
+  @media (max-width: 640px) {
+    .how-grid, .ben-grid, .mistakes-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 3rem; }
+    section { padding: 60px 5%; }
+    .footer-top { grid-template-columns: 1fr; gap: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <a href="https://pitchdetector.com/" class="logo">
+      <div class="logo-box">🎯</div>
+      <span class="logo-name">PITCH<span>TEST</span></span>
+    </a>
+    <nav>
+      <a href="#what-is">What Is It</a>
+      <a href="#how-works">How It Works</a>
+      <a href="#benefits">Benefits</a>
+      <a href="#guide">Guide</a>
+      <a href="https://pitchdetector.com/" class="nav-cta">Run Test →</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">Professional Voice Evaluation</div>
+      <h1>PITCH<br><span>ACCURACY</span><br>TEST</h1>
+      <p>
+        A <a href="https://pitchdetector.com/" class="txt-link">pitch accuracy test</a> is one of the most effective ways to understand how well your voice stays on the correct musical notes while singing. Many singers face difficulty not because they cannot sing, but because their pitch is not stable or accurate.
+      </p>
+      <p>
+        This means their voice may go slightly higher or lower than the required note, which affects overall performance. A pitch accuracy test helps solve this problem by analyzing your voice in real time and showing how closely you match the correct pitch.
+      </p>
+      <p>
+        It gives instant feedback, allowing you to improve faster, train your ears better, and develop a more controlled and professional singing style.
+      </p>
+      <div class="hero-stats">
+        <div class="hs">
+          <span class="hs-val">Real-Time</span>
+          <span class="hs-lbl">Analysis Speed</span>
+        </div>
+        <div class="hs">
+          <span class="hs-val">± 0.1¢</span>
+          <span class="hs-lbl">Detection Precision</span>
+        </div>
+        <div class="hs">
+          <span class="hs-val">Free</span>
+          <span class="hs-lbl">No Cost</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test Display Card -->
+    <div class="test-card">
+      <div class="tc-top">
+        <span class="tc-title">Pitch Accuracy Test — Live</span>
+        <span class="rec-pill">Recording</span>
+      </div>
+
+      <div style="text-align:center;margin-bottom:24px;">
+        <div class="score-circle">
+          <div class="score-inner">
+            <span class="score-num">94</span>
+            <span class="score-pct">% Accurate</span>
+          </div>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Current Note: <span style="color:var(--cyan);">B♭4 · 466 Hz</span></div>
+      </div>
+
+      <div class="hz-grid">
+        <div class="hz-row">
+          <span class="hz-label">Sharp</span>
+          <div class="hz-track"><div class="hz-fill" style="--w:15%;background:linear-gradient(90deg,#fbbf24,#f59e0b);box-shadow:0 0 8px rgba(251,191,36,0.5);animation-delay:0.1s;"></div></div>
+          <span class="hz-val" style="color:#fbbf24;">+8¢</span>
+        </div>
+        <div class="hz-row">
+          <span class="hz-label" style="color:var(--cyan);">Target</span>
+          <div class="hz-track"><div class="hz-fill" style="--w:100%;animation-delay:0.2s;"></div></div>
+          <span class="hz-val" style="color:var(--cyan);">466 Hz</span>
+        </div>
+        <div class="hz-row">
+          <span class="hz-label">Flat</span>
+          <div class="hz-track"><div class="hz-fill" style="--w:10%;background:linear-gradient(90deg,#6366f1,#818cf8);box-shadow:0 0 8px rgba(99,102,241,0.5);animation-delay:0.3s;"></div></div>
+          <span class="hz-val" style="color:#818cf8;">-5¢</span>
+        </div>
+        <div class="hz-row">
+          <span class="hz-label">Voice</span>
+          <div class="hz-track"><div class="hz-fill" style="--w:88%;animation-delay:0.4s;"></div></div>
+          <span class="hz-val">462 Hz</span>
+        </div>
+      </div>
+
+      <div class="status-grid">
+        <div class="s-chip">
+          <span class="s-val" style="color:#4ade80;">PASS</span>
+          <span class="s-lbl">Result</span>
+        </div>
+        <div class="s-chip">
+          <span class="s-val">B♭4</span>
+          <span class="s-lbl">Note</span>
+        </div>
+        <div class="s-chip">
+          <span class="s-val">Stable</span>
+          <span class="s-lbl">Hold</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WHAT IS ══ -->
+<section id="what-is" class="alt">
+  <div class="section-inner">
+    <div class="two-col">
+      <div>
+        <span class="sec-tag">Definition</span>
+        <h2>WHAT IS A <span>PITCH ACCURACY TEST?</span></h2>
+        <p>A pitch accuracy test is a vocal evaluation method that measures how precisely you sing or match musical notes. It works by comparing your voice frequency with standard pitch values and showing whether you are on the correct note or not.</p>
+        <p>This test is used by singers, musicians, and voice trainers to check vocal stability and identify pitch-related weaknesses. Instead of guessing your singing ability, this test gives a clear and measurable result, helping you understand your true vocal performance level.</p>
+        <p>With regular use, the pitch accuracy test becomes a powerful diagnostic tool that reveals exactly where your voice needs work — and shows your improvement over time with measurable data.</p>
+      </div>
+      <div class="info-box">
+        <div class="ib-row">
+          <div class="ib-num">01</div>
+          <div>
+            <div class="ib-title">Vocal Evaluation Method</div>
+            <p class="ib-desc">Measures how precisely your voice matches standard musical note frequencies in real time.</p>
+          </div>
+        </div>
+        <div class="ib-row">
+          <div class="ib-num">02</div>
+          <div>
+            <div class="ib-title">Used by Professionals</div>
+            <p class="ib-desc">Singers, musicians, and voice trainers use it to check vocal stability and identify weaknesses.</p>
+          </div>
+        </div>
+        <div class="ib-row">
+          <div class="ib-num">03</div>
+          <div>
+            <div class="ib-title">Measurable Results</div>
+            <p class="ib-desc">Gives clear, quantifiable results — not guesswork — so you know your true vocal performance level.</p>
+          </div>
+        </div>
+        <div class="ib-row">
+          <div class="ib-num">04</div>
+          <div>
+            <div class="ib-title">Progress Tracking</div>
+            <p class="ib-desc">Tracks improvement over time and shows exactly how your pitch accuracy grows with practice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section id="how-works">
+  <div class="section-inner">
+    <div style="margin-bottom:48px;">
+      <span class="sec-tag">The Process</span>
+      <h2>HOW PITCH ACCURACY <span>TEST WORKS</span></h2>
+      <p style="max-width:580px;color:var(--muted);">From sound capture to real-time result display — here is the complete technical process behind every pitch accuracy test.</p>
+    </div>
+    <div class="how-grid">
+      <div class="hw-cell">
+        <div class="hw-num">01</div>
+        <h3>Voice Capture</h3>
+        <p>A pitch accuracy test works by capturing your voice through a microphone and analyzing its frequency in real time using audio processing technology.</p>
+        <div class="hw-accent"></div>
+      </div>
+      <div class="hw-cell">
+        <div class="hw-num">02</div>
+        <h3>Frequency Analysis</h3>
+        <p>Every sound has a specific frequency, and each frequency corresponds to a musical note. The system detects your exact Hz value with precision.</p>
+        <div class="hw-accent"></div>
+      </div>
+      <div class="hw-cell">
+        <div class="hw-num">03</div>
+        <h3>Note Comparison</h3>
+        <p>When you sing, it compares your voice frequency with the correct note. If your pitch matches, it shows accuracy; if not, it shows sharp or flat status.</p>
+        <div class="hw-accent"></div>
+      </div>
+      <div class="hw-cell">
+        <div class="hw-num">04</div>
+        <h3>Visual Feedback</h3>
+        <p>Advanced systems display visual graphs and stability meters, making it easier to understand your performance and adjust your voice instantly.</p>
+        <div class="hw-accent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY IMPORTANT ══ -->
+<section class="alt">
+  <div class="section-inner">
+    <div class="why-grid">
+      <div>
+        <span class="sec-tag">Why It Matters</span>
+        <h2>WHY PITCH ACCURACY TEST IS <span>IMPORTANT</span></h2>
+        <p style="margin-bottom:28px;">Pitch accuracy is one of the most important skills in singing because even a powerful voice can sound unprofessional if it is not on the correct note.</p>
+        <div class="why-list">
+          <div class="wl-item">
+            <span class="wl-arrow">→</span>
+            <p><strong>Identifies mistakes immediately</strong> — helps you recognize and correct pitch errors during practice before bad habits form.</p>
+          </div>
+          <div class="wl-item">
+            <span class="wl-arrow">→</span>
+            <p><strong>Corrects errors on the spot</strong> — real-time feedback means you never have to wait to know where your pitch went wrong.</p>
+          </div>
+          <div class="wl-item">
+            <span class="wl-arrow">→</span>
+            <p><strong>Builds strong vocal control</strong> — consistent use develops the muscle memory and ear-voice coordination needed for stable pitch.</p>
+          </div>
+          <div class="wl-item">
+            <span class="wl-arrow">→</span>
+            <p><strong>Trains ear naturally</strong> — over time your ear learns to recognize correct notes without any assistance from external tools.</p>
+          </div>
+          <div class="wl-item">
+            <span class="wl-arrow">→</span>
+            <p><strong>Builds confidence and stability</strong> — singers develop better confidence, stability, and musical understanding with regular use.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style readout -->
+      <div class="terminal">
+        <div class="term-bar">
+          <div class="t-dot r"></div>
+          <div class="t-dot y"></div>
+          <div class="t-dot g"></div>
+          <span class="term-title">pitch_accuracy_test.exe — output</span>
+        </div>
+        <div class="term-body">
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">session_start</span><span class="tl-val ok">true</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">mic_detected</span><span class="tl-val ok">confirmed</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">voice_input</span><span class="tl-val ok">active</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">frequency</span><span class="tl-val">466.16 Hz</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">target_note</span><span class="tl-val">B♭4</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">detected_note</span><span class="tl-val ok">B♭4</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">deviation</span><span class="tl-val warn">+6¢ (sharp)</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">stability</span><span class="tl-val ok">0.92 — stable</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">accuracy_score</span><span class="tl-val ok">94%</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">result</span><span class="tl-val ok">PASS ✓</span></div>
+          <div class="tl"><span class="tl-prompt">$</span><span class="tl-key">recommendation</span><span class="tl-val warn">lower pitch slightly</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BENEFITS ══ -->
+<section id="benefits">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:52px;">
+      <span class="sec-tag" style="justify-content:center;">Key Advantages</span>
+      <h2>BENEFITS OF <span>PITCH ACCURACY TEST</span></h2>
+      <p style="max-width:520px;margin:0 auto;color:var(--muted);">From faster skill development to professional-level vocal control — here is what regular pitch testing delivers.</p>
+    </div>
+    <div class="ben-grid">
+      <div class="ben-cell">
+        <span class="bc-icon">⚡</span>
+        <h3>Instant Feedback</h3>
+        <p>Provides real-time feedback so you can correct mistakes quickly without waiting — every session is maximally productive.</p>
+      </div>
+      <div class="ben-cell">
+        <span class="bc-icon">🎯</span>
+        <h3>Vocal Precision</h3>
+        <p>Helps you stay on correct notes consistently, building the kind of precise pitch control that defines professional singers.</p>
+      </div>
+      <div class="ben-cell">
+        <span class="bc-icon">👂</span>
+        <h3>Ear Training</h3>
+        <p>Strengthens your musical ear, allowing you to identify pitch differences naturally and automatically over time without tools.</p>
+      </div>
+      <div class="ben-cell">
+        <span class="bc-icon">💪</span>
+        <h3>Improved Confidence</h3>
+        <p>As your voice becomes more stable and controlled, your singing confidence grows — both in practice and during performances.</p>
+      </div>
+      <div class="ben-cell">
+        <span class="bc-icon">📊</span>
+        <h3>Track Progress</h3>
+        <p>Helps you monitor your improvement over time with clear, measurable data that shows how far your pitch control has developed.</p>
+      </div>
+      <div class="ben-cell">
+        <span class="bc-icon">🏆</span>
+        <h3>Professional Style</h3>
+        <p>Over time, regular testing helps you develop a more professional singing style with consistent pitch accuracy and vocal control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STEP BY STEP & FEATURES ══ -->
+<section id="guide" class="alt">
+  <div class="section-inner">
+    <div class="guide-grid">
+      <div>
+        <span class="sec-tag">Step-by-Step</span>
+        <h2>HOW TO USE <span>PITCH ACCURACY TEST</span></h2>
+        <p style="margin-bottom:32px;">Follow these steps precisely to run a proper pitch accuracy test and get the most accurate, useful results.</p>
+        <div class="steps-list">
+          <div class="step-row">
+            <div class="sr-num">01</div>
+            <div class="sr-content">
+              <h3>Open the Tool Online</h3>
+              <p>Open a pitch accuracy test tool online — no installation required, it runs directly in your browser on any device.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="sr-num">02</div>
+            <div class="sr-content">
+              <h3>Allow Microphone Access</h3>
+              <p>Allow microphone access for voice detection when the browser permission prompt appears on your screen.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="sr-num">03</div>
+            <div class="sr-content">
+              <h3>Choose a Quiet Environment</h3>
+              <p>Choose a quiet environment for better accuracy — background noise is the single biggest factor that reduces test precision.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="sr-num">04</div>
+            <div class="sr-content">
+              <h3>Sing Simple Notes Clearly</h3>
+              <p>Start by singing simple notes clearly — avoid rushing into complex songs or challenging vocal ranges too early.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="sr-num">05</div>
+            <div class="sr-content">
+              <h3>Watch Real-Time Feedback</h3>
+              <p>Watch real-time feedback on the screen and observe how your sung notes compare to the correct target pitches.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="sr-num">06</div>
+            <div class="sr-content">
+              <h3>Check Sharp or Flat Status</h3>
+              <p>Check whether your pitch is correct, sharp, or flat — the tool clearly shows which direction your voice needs adjustment.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="sr-num">07</div>
+            <div class="sr-content">
+              <h3>Adjust Your Voice Immediately</h3>
+              <p>Adjust your voice immediately if needed — real improvement comes from correcting errors the moment they appear.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="sr-num">08</div>
+            <div class="sr-content">
+              <h3>Repeat Exercises Regularly</h3>
+              <p>Repeat exercises regularly for improvement — consistent daily practice is the key to long-term pitch accuracy development.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Table -->
+      <div>
+        <span class="sec-tag">Features</span>
+        <h2>PITCH ACCURACY TEST <span>FEATURES</span></h2>
+        <p style="margin-bottom:28px;">A modern pitch accuracy test tool comes loaded with powerful features built for singers at every level.</p>
+        <div class="feat-table">
+          <div class="ft-head">
+            <div class="ft-head-col">Feature</div>
+            <div class="ft-head-col">Description</div>
+          </div>
+          <div class="ft-row">
+            <div class="ft-feature">Real-Time Feedback</div>
+            <div class="ft-desc">Shows pitch accuracy instantly while singing — zero delay between input and analysis output.</div>
+          </div>
+          <div class="ft-row">
+            <div class="ft-feature">Sharp/Flat Detection</div>
+            <div class="ft-desc">Identifies precisely if your voice is above or below the correct note at any given moment.</div>
+          </div>
+          <div class="ft-row">
+            <div class="ft-feature">Frequency Analysis</div>
+            <div class="ft-desc">Measures exact sound frequency in Hz — giving you hard data about your voice, not guesses.</div>
+          </div>
+          <div class="ft-row">
+            <div class="ft-feature">Visual Meter</div>
+            <div class="ft-desc">Displays pitch stability graphically so you can see your performance as a clear visual readout.</div>
+          </div>
+          <div class="ft-row">
+            <div class="ft-feature">Note Recognition</div>
+            <div class="ft-desc">Identifies musical notes accurately — C, D, E, F, G, A, B — with sharp and flat variations.</div>
+          </div>
+          <div class="ft-row">
+            <div class="ft-feature">Progress Tracking</div>
+            <div class="ft-desc">Helps monitor improvement over time with session data that shows how far your voice has come.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MISTAKES ══ -->
+<section>
+  <div class="section-inner">
+    <div style="margin-bottom:48px;">
+      <span class="sec-tag">Watch Out</span>
+      <h2>COMMON MISTAKES WHILE USING <span>PITCH ACCURACY TEST</span></h2>
+      <p style="max-width:580px;color:var(--muted);">Many beginners do not get full benefit because of simple, avoidable mistakes. Be aware of these from the start.</p>
+    </div>
+    <div class="mistakes-grid">
+      <div class="mk-item">
+        <div class="mk-x">✕</div>
+        <p><strong>Noisy environments</strong> — using the tool in noisy places is the most common mistake and significantly reduces detection accuracy and reliability.</p>
+      </div>
+      <div class="mk-item">
+        <div class="mk-x">✕</div>
+        <p><strong>Singing too loud or soft</strong> — extreme volume levels can affect detection results and cause the tool to misread your actual pitch level.</p>
+      </div>
+      <div class="mk-item">
+        <div class="mk-x">✕</div>
+        <p><strong>Ignoring feedback</strong> — failing to correct your pitch immediately when the tool shows an error slows down improvement significantly over time.</p>
+      </div>
+      <div class="mk-item">
+        <div class="mk-x">✕</div>
+        <p><strong>Inconsistent practice</strong> — irregular use prevents long-term pitch control development. Daily sessions are necessary for real, lasting results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW TO IMPROVE ══ -->
+<section class="alt">
+  <div class="section-inner">
+    <div class="improve-grid">
+      <div>
+        <span class="sec-tag">Improvement Path</span>
+        <h2>HOW TO IMPROVE WITH <span>PITCH ACCURACY TEST</span></h2>
+        <p style="margin-bottom:32px;">To improve faster, it is important to use the pitch accuracy test regularly and focus on slow, controlled practice.</p>
+        <div class="imp-list">
+          <div class="imp-item">
+            <div class="imp-bullet"></div>
+            <p><strong>Use the test regularly</strong> — consistent daily use builds the ear-voice coordination needed for stable, accurate pitch control.</p>
+          </div>
+          <div class="imp-item">
+            <div class="imp-bullet"></div>
+            <p><strong>Focus on slow, controlled practice</strong> — deliberately slow exercises build stronger pitch instincts than fast, rushed sessions.</p>
+          </div>
+          <div class="imp-item">
+            <div class="imp-bullet"></div>
+            <p><strong>Start with basic notes</strong> — build your foundation on simple notes before gradually moving to more complex vocal exercises.</p>
+          </div>
+          <div class="imp-item">
+            <div class="imp-bullet"></div>
+            <p><strong>Pay close attention to feedback</strong> — adjust your voice immediately whenever the test shows a deviation from the correct pitch.</p>
+          </div>
+          <div class="imp-item">
+            <div class="imp-bullet"></div>
+            <p><strong>Trust the process</strong> — over time, your ears will naturally start recognizing correct pitch and your voice will become more stable.</p>
+          </div>
+          <div class="imp-item">
+            <div class="imp-bullet"></div>
+            <p><strong>Consistency is everything</strong> — the key to developing long-term accuracy and professional singing ability is never missing a session.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout-box">
+        <h3>THE IMPROVEMENT FORMULA</h3>
+        <p>The path to professional pitch accuracy is simple — use the test daily, respond to every piece of feedback immediately, and never skip a session. Your voice will improve measurably within weeks.</p>
+        <p>Over time, your ears will naturally start recognizing correct pitch, and your voice will become more stable. Consistent practice is the key to developing long-term accuracy and a professional singing ability.</p>
+        <div class="cbox-metrics">
+          <div class="cbox-m">
+            <span class="cbox-m-val">15 Min</span>
+            <span class="cbox-m-lbl">Daily Practice</span>
+          </div>
+          <div class="cbox-m">
+            <span class="cbox-m-val">2 Weeks</span>
+            <span class="cbox-m-lbl">Noticeable Gain</span>
+          </div>
+          <div class="cbox-m">
+            <span class="cbox-m-val">∞</span>
+            <span class="cbox-m-lbl">Potential Growth</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONCLUSION ══ -->
+<section style="padding-top:0;">
+  <div class="section-inner">
+    <div class="conclusion-wrap">
+      <span class="sec-tag" style="justify-content:center;">Conclusion</span>
+      <h2>ACHIEVE PROFESSIONAL <span>PITCH CONTROL</span></h2>
+      <p>
+        A <a href="https://note-detector-online-e19f44.gitlab.io/" class="txt-link">pitch accuracy test</a> is a powerful tool for anyone who wants to improve their singing performance. It helps you understand how accurately you sing, corrects mistakes in real time, and builds strong vocal control.
+      </p>
+      <p>
+        Whether you are a beginner or an advanced singer, using this tool regularly can greatly improve your musical skills. With practice and consistency, you can achieve better pitch stability, stronger confidence, and a more professional singing voice.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="https://pitchdetector.com/" class="logo f-logo">
+          <div class="logo-box">🎯</div>
+          <span class="logo-name">PITCH<span style="color:var(--cyan);">TEST</span></span>
+        </a>
+        <p>Helping singers and vocal learners measure, understand, and improve pitch accuracy through free, real-time online testing tools.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#what-is">What Is It?</a></li>
+          <li><a href="#how-works">How It Works</a></li>
+          <li><a href="#benefits">Benefits</a></li>
+          <li><a href="#guide">Step-by-Step</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://pitchdetector.com/">Pitch Accuracy Test</a></li>
+          <li><a href="https://note-detector-online-e19f44.gitlab.io/">Note Detector Online</a></li>
+          <li><a href="https://pitchdetector.com/">Ear Training Guide</a></li>
+          <li><a href="https://pitchdetector.com/">Vocal Tips & FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 PitchTest · All rights reserved.</p>
+      <div class="f-badge">Free · Real-Time · No Installation</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
